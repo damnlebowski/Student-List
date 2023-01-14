@@ -22,7 +22,7 @@ class StudentmodelAdapter extends TypeAdapter<Studentmodel> {
       email: fields[3] as String,
       phone: fields[4] as String,
       id: fields[0] as int?,
-      imagePath: fields[5] as dynamic,
+      imagePathFirst: fields[5] as String,
     );
   }
 
@@ -41,7 +41,7 @@ class StudentmodelAdapter extends TypeAdapter<Studentmodel> {
       ..writeByte(4)
       ..write(obj.phone)
       ..writeByte(5)
-      ..write(obj.imagePath);
+      ..write(obj.imagePathFirst);
   }
 
   @override

@@ -1,6 +1,9 @@
 // ignore_for_file: prefer_const_constructors
 
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
+import 'package:hive_flutter/adapters.dart';
 import 'package:students_list/db/functions/db_functions.dart';
 import 'package:students_list/screens/screen_add_person.dart';
 import 'package:students_list/screens/screen_profile.dart';
@@ -14,6 +17,15 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  final searchControler = TextEditingController();
+
+  List<Studentmodel> studentList = Hive.box<Studentmodel>('student_db')
+      .values
+      .toList(); //.........................second one
+  final studentDB = Hive.openBox<Studentmodel>('student_db');
+  late List<Studentmodel> studentDisplay = List<Studentmodel>.from(
+      studentDisplay); //.........................first one
+
   @override
   void initState() {
     getAllStudents();
@@ -22,6 +34,7 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+    getAllStudents();
     return Scaffold(
       appBar: AppBar(
         title: Row(
@@ -39,8 +52,13 @@ class _HomePageState extends State<HomePage> {
               Padding(
                 padding: const EdgeInsets.only(left: 10, right: 10),
                 child: TextField(
+                  controller: searchControler,
                   decoration: InputDecoration(
                       labelText: 'Search', suffixIcon: Icon(Icons.search)),
+                  onChanged: (value) {
+                    // search ivede
+                    _searchStudent(value);
+                  },
                 ),
               ),
               SizedBox(
@@ -57,26 +75,22 @@ class _HomePageState extends State<HomePage> {
                           studentAge: data.age,
                           studentemail: data.email,
                           studentphone: data.phone,
-                          // imagePath: imagePath
                         );
                         Navigator.of(context)
                             .push(MaterialPageRoute(builder: (ctx) {
-                          return ProfilePage();
+                          return ProfilePage(
+                            studentmodel: data,
+                          );
                         }));
                       },
-                      leading: imageLeadingMethode(),
+                      leading: imageLeadingMethode(image: data.imagePathFirst),
                       title: Text(data.name),
                       trailing: Row(
                         mainAxisSize: MainAxisSize.min,
                         children: [
                           IconButton(
                               onPressed: () {
-                                if (data.id != null) {
-                                  toDeleteStudent(data.id!);
-                                  print('${data.id}');
-                                } else {
-                                  print('${data.id}');
-                                }
+                                toDeleteStudent(index);
                               },
                               icon: Icon(Icons.delete)),
                           IconButton(
@@ -104,5 +118,17 @@ class _HomePageState extends State<HomePage> {
         child: Icon(Icons.person_add_alt_1_sharp),
       ),
     );
+  }
+
+  void _searchStudent(String value) {
+    setState(() {
+      // studentDisplay = studentList
+      //     .where((element) =>
+      //         element.name.toLowerCase().contains(value.toLowerCase()))
+      //     .toList();
+      studentDisplay = studentList
+          .where((student) => student.name.toLowerCase())
+          .contains(value.toLowerCase());
+    });
   }
 }

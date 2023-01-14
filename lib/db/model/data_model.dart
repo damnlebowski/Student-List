@@ -19,7 +19,7 @@ class Studentmodel {
   final String phone;
 
   @HiveField(5)
-  final dynamic imagePath;
+  final String imagePathFirst;
 
   Studentmodel(
       {required this.name,
@@ -27,5 +27,5 @@ class Studentmodel {
       required this.email,
       required this.phone,
       this.id,
-      this.imagePath});
+      required this.imagePathFirst});
 }

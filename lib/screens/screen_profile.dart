@@ -1,7 +1,11 @@
 // ignore_for_file: prefer_const_constructors
 
+import 'dart:io';
+
 import 'package:flutter/material.dart';
-import 'package:students_list/screens/screen_add_person.dart';
+import 'package:students_list/db/model/data_model.dart';
+// import 'package:students_list/screens/screen_add_person.dart';
+import 'package:students_list/screens/screen_edit_person.dart';
 
 var studentNameSaved;
 var studentAgeSaved;
@@ -10,7 +14,8 @@ var studentPhoneSaved;
 dynamic imagePathSaved;
 
 class ProfilePage extends StatelessWidget {
-  ProfilePage({super.key});
+  ProfilePage({super.key, required this.studentmodel});
+  final Studentmodel studentmodel;
 
   @override
   Widget build(BuildContext context) {
@@ -21,27 +26,33 @@ class ProfilePage extends StatelessWidget {
           height: 10,
         ),
         Center(
-          child: imageMethode(),
+          child: CircleAvatar(
+            radius: 100,
+            backgroundImage: FileImage(
+              File(studentmodel.imagePathFirst),
+            ),
+          ),
         ),
         SizedBox(
           height: 50,
         ),
-        Text('               Name            :              $studentNameSaved'),
+        Text(
+            '               Name            :              ${studentmodel.name}'),
         SizedBox(
           height: 25,
         ),
         Text(
-            '               Age                :              $studentAgeSaved'),
+            '               Age                :              ${studentmodel.age}'),
         SizedBox(
           height: 25,
         ),
         Text(
-            '               Mobile           :              $studentPhoneSaved'),
+            '               Mobile           :              ${studentmodel.phone}'),
         SizedBox(
           height: 25,
         ),
         Text(
-            '               Email             :              $studentEmailSaved'),
+            '               Email             :              ${studentmodel.email}'),
         SizedBox(
           height: 50,
         ),
@@ -53,6 +64,23 @@ class ProfilePage extends StatelessWidget {
               child: Text('Close')),
         )
       ]),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          // final data = studentmodel;
+          // studentDetailsCall(
+          //                 studentName: data.name,
+          //                 studentAge: data.age,
+          //                 studentemail: data.email,
+          //                 studentphone: data.phone,
+          //               );
+          Navigator.of(context).push(MaterialPageRoute(builder: (ctx) {
+            return EditPerson(
+              studentmodel: studentmodel,
+            );
+          }));
+        },
+        child: Icon(Icons.edit),
+      ),
     );
   }
 }

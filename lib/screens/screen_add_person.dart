@@ -1,5 +1,6 @@
 // ignore_for_file: prefer_const_constructors
 
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
@@ -7,14 +8,22 @@ import 'package:students_list/db/functions/db_functions.dart';
 import 'package:students_list/db/model/data_model.dart';
 import 'package:image_picker/image_picker.dart';
 
-String? imagePath = '';
+String? imagePath = "x";
 
-class AddPerson extends StatelessWidget {
+class AddPerson extends StatefulWidget {
   AddPerson({super.key});
 
+  @override
+  State<AddPerson> createState() => _AddPersonState();
+}
+
+class _AddPersonState extends State<AddPerson> {
   final _nameControler = TextEditingController();
+
   final _ageControler = TextEditingController();
+
   final _emailControler = TextEditingController();
+
   final _phoneControler = TextEditingController();
 
   @override
@@ -62,6 +71,9 @@ class AddPerson extends StatelessWidget {
                     children: [
                       ElevatedButton(
                           onPressed: () {
+                            setState(() {
+                              imagePath = null;
+                            });
                             Navigator.of(context).pop();
                           },
                           child: Text('Cancel')),
@@ -99,9 +111,10 @@ class AddPerson extends StatelessWidget {
           age: ageFromController,
           email: emailFromController,
           phone: phoneFromController,
-          imagePath: imagePath);
-
-      addStudent(StudentDetailsObject);
+          imagePathFirst: imagePath!);
+      log(imagePath!);
+      await addStudent(StudentDetailsObject);
+      clearImage();
       Navigator.of(context).pop();
     }
   }
@@ -115,6 +128,13 @@ class AddPerson extends StatelessWidget {
       keyboardType: kt,
       maxLength: ml,
     );
+  }
+
+  //for clearing the image after adding
+  clearImage() {
+    setState(() {
+      imagePath = null;
+    });
   }
 }
 
@@ -130,6 +150,7 @@ class ToChooseImage extends StatefulWidget {
 class _ToChooseImageState extends State<ToChooseImage> {
   picImage({required ImageSource source}) async {
     final imagePicked = await ImagePicker().getImage(source: source);
+    log(imagePicked!.path.toString());
     if (imagePicked != null) {
       setState(() {
         imagePath = imagePicked.path;
@@ -152,20 +173,15 @@ class _ToChooseImageState extends State<ToChooseImage> {
 
 CircleAvatar imageMethode() {
   return CircleAvatar(
-    radius: 50,
-    child: Image.file(
-      File(imagePath!),
-      height: 300,
-      width: 300,
-      fit: BoxFit.cover,
-    ),
+    radius: 75,
+    backgroundImage: (imagePath == null)
+        ? AssetImage('assets/avatar.png') as ImageProvider
+        : FileImage(File(imagePath!)),
   );
 }
 
-CircleAvatar imageLeadingMethode() {
+CircleAvatar imageLeadingMethode({required String image}) {
   return CircleAvatar(
-    child: Image.file(
-      File(imagePath!),
-    ),
+    backgroundImage: FileImage(File(image)),
   );
 }
