@@ -21,58 +21,53 @@ class ProfilePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(),
-      body: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-        SizedBox(
-          height: 10,
-        ),
-        Center(
-          child: CircleAvatar(
-            radius: 100,
-            backgroundImage: FileImage(
-              File(studentmodel.imagePathFirst),
+      body: SingleChildScrollView(
+        child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+          SizedBox(
+            height: 10,
+          ),
+          Center(
+            child: CircleAvatar(
+              radius: 100,
+              backgroundImage: FileImage(
+                File(studentmodel.imagePathFirst),
+              ),
             ),
           ),
-        ),
-        SizedBox(
-          height: 50,
-        ),
-        Text(
-            '               Name            :              ${studentmodel.name}'),
-        SizedBox(
-          height: 25,
-        ),
-        Text(
-            '               Age                :              ${studentmodel.age}'),
-        SizedBox(
-          height: 25,
-        ),
-        Text(
-            '               Mobile           :              ${studentmodel.phone}'),
-        SizedBox(
-          height: 25,
-        ),
-        Text(
-            '               Email             :              ${studentmodel.email}'),
-        SizedBox(
-          height: 50,
-        ),
-        Center(
-          child: ElevatedButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-              child: Text('Close')),
-        )
-      ]),
+          SizedBox(
+            height: 50,
+          ),
+          Text(
+              '               Name            :              ${studentmodel.name}'),
+          SizedBox(
+            height: 25,
+          ),
+          Text(
+              '               Age                :              ${studentmodel.age}'),
+          SizedBox(
+            height: 25,
+          ),
+          Text(
+              '               Mobile           :              ${studentmodel.phone}'),
+          SizedBox(
+            height: 25,
+          ),
+          Text(
+              '               Email             :              ${studentmodel.email}'),
+          SizedBox(
+            height: 50,
+          ),
+          Center(
+            child: ElevatedButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                child: Text('Close')),
+          )
+        ]),
+      ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          // final data = studentmodel;
-          // studentDetailsCall(
-          //                 studentName: data.name,
-          //                 studentAge: data.age,
-          //                 studentemail: data.email,
-          //                 studentphone: data.phone,
-          //               );
           Navigator.of(context).push(MaterialPageRoute(builder: (ctx) {
             return EditPerson(
               studentmodel: studentmodel,
@@ -90,11 +85,9 @@ studentDetailsCall({
   required studentAge,
   required studentemail,
   required studentphone,
-  // required imagePath
 }) {
   studentNameSaved = studentName;
   studentAgeSaved = studentAge;
   studentEmailSaved = studentemail;
   studentPhoneSaved = studentphone;
-  //imagePathSaved = imagePath;
 }

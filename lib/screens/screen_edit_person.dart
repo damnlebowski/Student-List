@@ -2,8 +2,6 @@
 
 import 'package:flutter/material.dart';
 import 'package:students_list/db/model/data_model.dart';
-// import 'package:students_list/db/functions/db_functions.dart';
-// import 'package:students_list/db/model/data_model.dart';
 
 class EditPerson extends StatefulWidget {
   EditPerson({super.key, required this.studentmodel});
@@ -21,17 +19,12 @@ class _EditPersonState extends State<EditPerson> {
   @override
   void initState() {
     _nameController = TextEditingController(text: widget.studentmodel.name);
+    _ageController = TextEditingController(text: widget.studentmodel.age);
+    _emailController = TextEditingController(text: widget.studentmodel.email);
+    _phoneController = TextEditingController(text: widget.studentmodel.phone);
 
     super.initState();
   }
-
-  // final _nameControler = TextEditingController(text: widget.studentmodel.name);
-
-  // final _ageControler = TextEditingController();
-
-  // final _emailControler = TextEditingController();
-
-  // final _phoneControler = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -97,7 +90,7 @@ class _EditPersonState extends State<EditPerson> {
                           onPressed: () {
                             Navigator.pop(context);
                           },
-                          child: Text('Edit')),
+                          child: Text('Update')),
                     ],
                   ),
                 ],

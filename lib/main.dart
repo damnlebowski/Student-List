@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/adapters.dart';
 import 'package:students_list/db/model/data_model.dart';
-import 'package:students_list/screens/screen_edit_person.dart';
+
 import 'package:students_list/screens/screen_home.dart';
 
 Future<void> main(List<String> args) async {
@@ -23,6 +23,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: ThemeData(primarySwatch: Colors.blue),
       home: HomePage(),
+      
     );
   }
 }
